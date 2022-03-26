@@ -1,0 +1,20 @@
+{
+  "name": "REVV Lap Times",
+  "description": "Get REVV Lap Times from transaction ID",
+  "version": "1.0",
+  "manifest_version": 3,
+  "action": {
+    "default_title": "Click to show an alert"
+  },
+  "permissions": [
+    "activeTab",
+    "scripting"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "host_permissions": [
+    "https://www.revvracing.com/",
+    "http://www.revvracing.com/"
+  ]
+}
