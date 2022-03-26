@@ -25,6 +25,19 @@ function GetLapTimes() {
     const txnID = document.getElementById("txnID").value
     loadJSON('https://game-session-api.revvracing.com/v1.0/game/result/' + txnID,
         function (data) {
+            const buttonBox = document.getElementById("lapTimeButtonBox")
+            let leaderboardLink = document.getElementById("LapTimeLeaderboard")
+            if(leaderboardLink){
+                buttonBox.removeChild(leaderboardLink)
+            }
+
+            leaderboardLink = document.createElement("a")
+            leaderboardLink.className = "btn btn-revr-pri"
+            leaderboardLink.target="_blank"
+            leaderboardLink.href = "https://www.revvracing.com/leaderboard/" + data.eventId
+            leaderboardLink.innerText = "View Leaderboard"
+            buttonBox.appendChild(leaderboardLink)
+
             const lapTimeResults = document.getElementById("lapTimeResults")
             lapTimeResults.innerHTML = ''
 
@@ -35,7 +48,7 @@ function GetLapTimes() {
             trackName.innerText = "Track: " + data.trackId
             const lapCount = trackInfo.insertCell()
             lapCount.innerText = "Laps: " + data.lapCount
-
+            
             for (let p in data.result[Object.keys(data.result)[0]].laps) {
                 let results = data.result[Object.keys(data.result)[0]].laps[p]
                 const lapRow = table.insertRow()
@@ -56,7 +69,15 @@ function GetLapTimes() {
                     sectorTimeCell.innerText = results.sectors[x] / 1000
                 }
             }
-            
+            const totalTime = data.result[Object.keys(data.result)[0]].time
+            const totalTimeRow = table.insertRow()
+            const totalTimeTitle = totalTimeRow.insertCell()
+            totalTimeTitle.innerText = "Total Time"
+
+            const totalTimeValue = totalTimeRow.insertCell()
+            totalTimeValue.innerText = millisToMinutesAndSeconds(totalTime)
+            totalTimeRow.style = "background: red;"
+
             lapTimeResults.appendChild(table)
 
         },
@@ -69,6 +90,7 @@ function AddLapTimeFields() {
         const landingPage = document.getElementById("landing-page")
         const form = document.createElement("form")
         form.className = "REVVLapTimes"
+        form.id = "REVVLapTimes"
         let labelLapTimes = document.createElement("label")
         labelLapTimes.htmlFor = "txnID"
         labelLapTimes.innerText = "Transaction ID: "
@@ -82,12 +104,17 @@ function AddLapTimeFields() {
         form.appendChild(txnIDInput)
         form.appendChild(document.createElement("br"))
 
+        const buttonBox = document.createElement("div")
+        buttonBox.id = "lapTimeButtonBox"
+        buttonBox.style = `display: inline-flex;
+        justify-content: space-between;`
         const findTimes = document.createElement("input")
         findTimes.type = "button"
         findTimes.value = "Find Times"
         findTimes.className = "btn btn-revr-pri"
         findTimes.onclick = GetLapTimes
-        form.appendChild(findTimes)
+        buttonBox.appendChild(findTimes)
+        form.appendChild(buttonBox)
 
         form.appendChild(document.createElement("br"))
 
