@@ -36,6 +36,7 @@ function GetLapTimes() {
             leaderboardLink.target="_blank"
             leaderboardLink.href = "https://www.revvracing.com/leaderboard/" + data.eventId
             leaderboardLink.innerText = "View Leaderboard"
+            leaderboardLink.id = "LapTimeLeaderboard"
             buttonBox.appendChild(leaderboardLink)
 
             const lapTimeResults = document.getElementById("lapTimeResults")
