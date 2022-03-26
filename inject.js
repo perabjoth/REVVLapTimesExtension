@@ -30,6 +30,7 @@ function GetLapTimes() {
 
             const table = document.createElement("table")
             const trackInfo = table.insertRow()
+            trackInfo.style = "background: white; color: black;"
             const trackName  = trackInfo.insertCell()
             trackName.innerText = "Track: " + data.trackId
             const lapCount = trackInfo.insertCell()
@@ -38,6 +39,7 @@ function GetLapTimes() {
             for (let p in data.result[Object.keys(data.result)[0]].laps) {
                 let results = data.result[Object.keys(data.result)[0]].laps[p]
                 const lapRow = table.insertRow()
+                lapRow.style = "background: red;"
                 const lapTitleCell = lapRow.insertCell()
                 const lapNumber = parseInt(p) + 1
                 lapTitleCell.innerText = "Lap " + lapNumber
@@ -71,16 +73,19 @@ function AddLapTimeFields() {
         labelLapTimes.htmlFor = "txnID"
         labelLapTimes.innerText = "Transaction ID: "
         form.appendChild(labelLapTimes)
+        form.appendChild(document.createElement("br"))
 
         const txnIDInput = document.createElement("input")
         txnIDInput.type = "text"
         txnIDInput.id = "txnID"
         txnIDInput.name = "Transaction ID"
         form.appendChild(txnIDInput)
+        form.appendChild(document.createElement("br"))
 
         const findTimes = document.createElement("input")
         findTimes.type = "button"
         findTimes.value = "Find Times"
+        findTimes.className = "btn btn-revr-pri"
         findTimes.onclick = GetLapTimes
         form.appendChild(findTimes)
 
@@ -89,6 +94,7 @@ function AddLapTimeFields() {
         form.style = `
             width: 50%;
             display: inline-grid;
+            font-size: 2em;
         `
 
         const lapTimeResults = document.createElement("div")
@@ -111,6 +117,8 @@ function AddLapTimeFields() {
         const tableStyle = document.createElement('style');
         tableStyle.textContent = `table, th, td {
             border: 1px solid;
+            font-size: 130%;
+            padding: 10px;
           }
           table{
               width: 100%;
